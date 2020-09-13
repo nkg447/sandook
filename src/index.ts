@@ -4,6 +4,7 @@ import './env';
 import express, { NextFunction, Request, Response } from 'express';
 import fileUpload from 'express-fileupload';
 import { Server } from 'http';
+import _path from 'path';
 
 import IRepository from './core/repository/definition';
 import { container } from './di';
@@ -30,6 +31,13 @@ app.use(coreMiddleware);
 app.use(routes);
 app.use((req: Request, res: Response, next: NextFunction) => { next(new APINotFoundError()); });
 app.use(errorHandlerMiddleware);
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+    app.get('*', (req, res) => {
+      res.sendFile(_path.join(__dirname + '/../client/build/index.html'));
+    });
+}
 
 const server: Server = app.listen((process.env['NODE_PORT'] || process.env['APP.PORT']), () => {
   eventHandler.emit('sys-info', `Express app started at ${process.env['NODE_PORT'] || process.env['APP.PORT']}.`);
