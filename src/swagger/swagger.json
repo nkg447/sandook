@@ -30,7 +30,7 @@
           ],
           "responses": {
             "200": {
-              "stringdescription": "Successful operation",
+              "description": "Successful operation",
               "schema": {
                 "$ref": "#/definitions/File"
               }
