@@ -23,14 +23,18 @@ export function analyseAndCreateMetaFile(path: string): void {
 }
 
 export function ensurePath(path: string) {
-    if (!fs.existsSync(path)) {
-      fs.mkdirSync(path);
-    }
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path);
   }
+}
 
 function getMetaDataFromFile(filePath: string): File {
-  const file: any = {};
   const fileStats = fs.statSync(filePath);
+  return fileStatsToFileEntity(filePath, fileStats);
+}
+
+function fileStatsToFileEntity(filePath: string, fileStats: fs.Stats) {
+  const file: any = {};
   file.path = filePath.split(Config.basePath)[1];
   file.isDir = fileStats.isDirectory();
   return new File(file);

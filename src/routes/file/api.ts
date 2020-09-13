@@ -49,4 +49,23 @@ function fetch(req: Request, res: Response, next: NextFunction) {
     });
 }
 
-export { fetch, upload };
+function download(req: Request, res: Response, next: NextFunction) {
+  let path: string = '';
+  if (req.query && req.query.path && typeof req.query.path === 'string') {
+    path = req.query.path;
+  }
+  controller
+    .download(path)
+    .then((filePath: StandardError | string) => {
+      if (typeof filePath === 'string') {
+        res.download(filePath);
+      } else {
+        res.send('');
+      }
+    })
+    .catch((error: StandardError | string) => {
+      res.status(500).send(error);
+    });
+}
+
+export { fetch, upload, download };

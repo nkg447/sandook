@@ -14,7 +14,7 @@
   ],
   "swagger": "2.0",
   "paths": {
-    "/api/file": {
+    "/api/file/meta": {
         "get": {
           "description": "Returns meta data about the path passed in params",
           "tags": [
@@ -42,6 +42,33 @@
               }
             }
           }
+        }
+      },
+    "/api/file": {
+        "get": {
+            "description": "Download file at params",
+            "tags": [
+              "File"
+            ],
+            "parameters": [
+              {
+                "name": "path",
+                "in": "query",
+                "required": true,
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful operation"
+              },
+              "500": {
+                "description": "Error",
+                "schema": {
+                  "$ref": "#/definitions/OPStatus"
+                }
+              }
+            }
         },
         "post": {
             "description": "Upload file",

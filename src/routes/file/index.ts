@@ -1,10 +1,11 @@
 import { Router } from 'express';
 
-import { fetch, upload } from './api';
+import { download, fetch, upload } from './api';
 
 const router = Router();
 
-router.get('/', fetch);
+router.get('/meta', fetch);
+router.get('/', download);
 router.post('/', upload);
 
 export default router;

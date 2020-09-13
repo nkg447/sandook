@@ -60,4 +60,16 @@ export default class FileController implements IFileService {
       }
     );
   }
+
+  public download(path: string) {
+    info(`Downloading file at "${path}"`);
+    return new Promise<StandardError | string>(async (resolve, reject) => {
+      try {
+        const filePath = _path.join(Config.basePath, path);
+        resolve(filePath);
+      } catch (err) {
+        reject(new ControllerError(err.message));
+      }
+    });
+  }
 }
