@@ -42,7 +42,42 @@
               }
             }
           }
-        }
+        },
+        "post": {
+            "description": "Upload file",
+            "tags": [
+              "File"
+            ],
+            "parameters": [
+              {
+                "name": "path",
+                "in": "query",
+                "required": true,
+                "type": "string"
+              },
+              {
+                "name": "file",
+                "in": "formData",
+                "required": true,
+                "type": "file",
+                "discription": "File to Upload"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful operation",
+                "schema": {
+                  "$ref": "#/definitions/OPStatus"
+                }
+              },
+              "500": {
+                "description": "Error",
+                "schema": {
+                  "$ref": "#/definitions/OPStatus"
+                }
+              }
+            }
+          }
       },
     "/auth/login": {
       "get": {

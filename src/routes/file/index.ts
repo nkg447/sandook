@@ -1,9 +1,10 @@
 import { Router } from 'express';
 
-import { fetch } from './api';
+import { fetch, upload } from './api';
 
 const router = Router();
 
 router.get('/', fetch);
+router.post('/', upload);
 
 export default router;

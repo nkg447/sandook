@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 
-import * as sysLog from './sys-log';
 import * as repoLog from './repo-log';
+import * as sysLog from './sys-log';
 
 const eventHandler = new EventEmitter().setMaxListeners(Number.MAX_VALUE);
 
