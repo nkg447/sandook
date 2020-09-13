@@ -5,7 +5,9 @@
     "build": "node ./util/build.js",
     "lint": "tslint --project \"tsconfig.json\" --quiet",
     "start": "node ./dist --NODE_ENV prod",
-    "start:dev": "nodemon --config nodemon.json",
+    "backend:dev": "nodemon --config nodemon.json",
+    "frontend": "npm run start --prefix client",
+    "start:dev": "concurrently \"npm run backend:dev\" \"npm run start --prefix client\"",
     "test": "nyc ts-mocha test/test.ts --timeout=15000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -69,6 +71,7 @@
     "ts-mocha": "^6.0.0",
     "ts-node": "^8.6.2",
     "tslint": "^5.20.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "concurrently": "^4.1.0"
   }
 }
