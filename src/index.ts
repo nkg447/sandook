@@ -29,13 +29,13 @@ app.use(securityMiddleware);
 app.use(swaggerRoute);
 app.use(coreMiddleware);
 app.use(routes);
-app.use((req: Request, res: Response, next: NextFunction) => { next(new APINotFoundError()); });
+// app.use((req: Request, res: Response, next: NextFunction) => { next(new APINotFoundError()); });
 app.use(errorHandlerMiddleware);
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
+if (process.env.NODE_ENV === 'prod') {
+    app.use(express.static(__dirname + '/frontend'));
     app.get('*', (req, res) => {
-      res.sendFile(_path.join(__dirname + '/../client/build/index.html'));
+      res.sendFile(_path.join(__dirname + '/frontend/index.html'));
     });
 }
 

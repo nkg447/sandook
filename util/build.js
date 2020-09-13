@@ -13,6 +13,13 @@ try {
       );
     }
   });
+  childProcess.exec('npm run build --prefix client', (error, stdout, stderr) => {
+      console.log(stderr.length);
+    if(error) { throw error || stderr; }
+    else {
+      childProcess.exec('mv ./client/build ./dist/frontend', console.log)
+    }
+  });
 } catch (err) {
   console.log(err);
 }
