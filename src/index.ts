@@ -2,6 +2,7 @@ import './env';
 
 // import './di';
 import express, { NextFunction, Request, Response } from 'express';
+import fileUpload from 'express-fileupload';
 import { Server } from 'http';
 
 import IRepository from './core/repository/definition';
@@ -22,6 +23,7 @@ preProcess();
 
 const app = express();
 
+app.use(fileUpload());
 app.use(securityMiddleware);
 app.use(swaggerRoute);
 app.use(coreMiddleware);
