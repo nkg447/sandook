@@ -20,9 +20,10 @@ export default class FileController implements IFileService {
         fs.readFile(metaFilePath, (err, data) => {
           if (err) {
             reject(new ControllerError(err.message));
+          }else{
+            const result: File[] = JSON.parse(data.toString('utf8'));
+            resolve(result);
           }
-          const result: File[] = JSON.parse(data.toString('utf8'));
-          resolve(result);
         });
       } catch (err) {
         reject(new ControllerError(err.message));
