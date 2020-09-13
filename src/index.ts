@@ -1,24 +1,24 @@
 import './env';
-import './di';
 
-import express from 'express';
+// import './di';
+import express, { NextFunction, Request, Response } from 'express';
 import { Server } from 'http';
-import { Request, Response, NextFunction } from 'express';
 
+import IRepository from './core/repository/definition';
 import { container } from './di';
 import { TYPES } from './di/types';
-import IRepository from './core/repository/definition';
-
-import eventHandler from './event';
-import swaggerRoute from './swagger';
-import securityMiddleware from './middleware/security';
-import coreMiddleware from './middleware';
-import routes from './routes';
 import errorHandlerMiddleware from './error-handler';
-
 import { APINotFoundError } from './error-handler/definition';
+import eventHandler from './event';
+import coreMiddleware from './middleware';
+import securityMiddleware from './middleware/security';
+import preProcess from './preProcess';
+import routes from './routes';
+import swaggerRoute from './swagger';
 
 const repository: IRepository = container.get<IRepository>(TYPES.IRepository);
+
+preProcess();
 
 const app = express();
 

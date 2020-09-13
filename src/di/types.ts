@@ -8,6 +8,7 @@ const TYPES = {
   IUserService: Symbol.for('IUserService'),
   IProductService: Symbol.for('IProductService'),
   ISaleService: Symbol.for('ISaleService'),
+  IFileService: Symbol.for('IFileService'),
 
   // Service - Repo implementation
   ProductRepo: Symbol.for('ProductRepo'),
@@ -19,7 +20,8 @@ const TYPES = {
   OAuth2Controller: Symbol.for('OAuth2Controller'),
   ProductController: Symbol.for('ProductController'),
   UserController: Symbol.for('UserController'),
-  SaleController: Symbol.for('SaleController')
+  SaleController: Symbol.for('SaleController'),
+  FileController: Symbol.for('FileController')
 };
 
 export { TYPES };
