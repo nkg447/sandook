@@ -1,10 +1,16 @@
 import './App.css';
 
 import React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
+import * as actions from './actions/file';
 import logo from './logo.svg';
+import { FileState } from './types/file';
 
-function App() {
+function App(props: FileState) {
+  console.log(props);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -25,4 +31,13 @@ function App() {
   );
 }
 
-export default App;
+export function mapDispatchToProps(dispatch: Dispatch<actions.FileAction>) {
+  return {
+    onUpdateFiles: (path: string) => dispatch(actions.updateFiles(path))
+  };
+}
+export function mapStateToProps(state: FileState) {
+  return state;
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
