@@ -104,6 +104,34 @@
                 }
               }
             }
+          },
+          "delete": {
+            "description": "Delete a file or a folder",
+            "tags": [
+              "File"
+            ],
+            "parameters": [
+              {
+                "name": "path",
+                "in": "query",
+                "required": true,
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful operation",
+                "schema": {
+                  "$ref": "#/definitions/OPStatus"
+                }
+              },
+              "500": {
+                "description": "Error",
+                "schema": {
+                  "$ref": "#/definitions/OPStatus"
+                }
+              }
+            }
           }
       },
     "/auth/login": {

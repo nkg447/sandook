@@ -8,7 +8,7 @@ const router = Router();
 
 const swaggerDoc: object = JSON.parse(readFileSync(join(__dirname, 'swagger.json'), { encoding: 'utf-8' }));
 
-set(swaggerDoc, 'host', `${window.location.host}`);
+set(swaggerDoc, 'host', `${process.env['APP.HOST']}:${process.env['APP.PORT']}`);
 set(swaggerDoc, 'schemes', [process.env['APP.SCHEME']]);
 
 router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));

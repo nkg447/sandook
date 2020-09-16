@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 
+import del from 'del';
 import fileUpload from 'express-fileupload';
 import fs from 'fs';
 import { inject, injectable } from 'inversify';
@@ -12,7 +13,7 @@ import { File } from '../../entity/file';
 import { StandardError, StandardSuccess } from '../../entity/standard-operation';
 import { info } from '../../event/sys-log/';
 import IFileService from '../../service/file';
-import { ensurePath } from '../../util/FileUtil';
+import { analyseAndCreateMetaFile, ensurePath } from '../../util/FileUtil';
 
 @injectable()
 export default class FileController implements IFileService {
@@ -71,5 +72,27 @@ export default class FileController implements IFileService {
         reject(new ControllerError(err.message));
       }
     });
+  }
+
+  public remove(path: string) {
+    return new Promise<StandardError | StandardSuccess>(
+      async (resolve, reject) => {
+        try {
+          const absolutePath = _path.join(Config.basePath, path);
+          if (fs.statSync(absolutePath).isDirectory()) {
+            del(absolutePath, { force: true }).then((data) =>
+              analyseAndCreateMetaFile(_path.dirname(absolutePath))
+            );
+          } else {
+            fs.unlinkSync(absolutePath);
+          }
+          info(`Deleted "${path}"`);
+          resolve(new ControllerSuccess(`Deleted "${path}"`));
+        } catch (err) {
+          info(`Unable to delete "${path}"`);
+          reject(new ControllerError(err));
+        }
+      }
+    );
   }
 }

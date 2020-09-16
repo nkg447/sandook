@@ -11,4 +11,5 @@ export default interface IFileService {
     files: fileUpload.FileArray
   ) => Promise<StandardError | StandardSuccess>;
   download: (path: string) => Promise<StandardError | string>;
+  remove: (path: string) => Promise<StandardError | StandardSuccess>;
 }
