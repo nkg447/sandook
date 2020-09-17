@@ -45,4 +45,8 @@ const StyledAppBar = styled(AppBar)`
 const ThemeButton = styled.div`
   padding: 10px;
   cursor: pointer;
+  border-radius: 100%;
+  &:hover {
+    background-color: grey;
+  }
 `;

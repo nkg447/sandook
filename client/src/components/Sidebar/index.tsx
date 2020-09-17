@@ -32,4 +32,5 @@ const Root = styled.div`
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
   font-size: 13px;
   background-color: ${Colors.backgroundColor};
+  border: 1px solid lightgrey;
 `;
