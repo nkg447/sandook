@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { ThemeProvider } from 'styled-components';
+
+import { StylesProvider } from '@material-ui/core/styles';
 
 import * as actions from './actions/file';
 import Header from './components/Header';
@@ -8,14 +11,17 @@ import Sidebar from './components/Sidebar';
 import { FileState } from './types/file';
 
 function App(props: FileState) {
-  console.log(props);
-
+  const [theme, setTheme] = useState('light');
+  const toggleTheme = () =>
+    theme === 'light' ? setTheme('dark') : setTheme('light');
   return (
-    <div>
-      <Header title="Sandook"></Header>
-      <Sidebar align="left">{}</Sidebar>
-      <Sidebar align="right">{}</Sidebar>
-    </div>
+    <ThemeProvider theme={{ mode: theme }}>
+      <StylesProvider injectFirst>
+        <Header toggleTheme={toggleTheme} title="Sandook"></Header>
+        <Sidebar align="left">{}</Sidebar>
+        <Sidebar align="right">{}</Sidebar>
+      </StylesProvider>
+    </ThemeProvider>
   );
 }
 
