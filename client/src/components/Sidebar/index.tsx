@@ -26,7 +26,6 @@ const Root = styled.div`
   min-width: 256px;
   height: 100vh;
   flex: 0 0 auto;
-  position: absolute;
   display: block;
   color: ${Colors.textColor};
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
