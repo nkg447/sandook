@@ -28,11 +28,11 @@ export default function App() {
       <StylesProvider injectFirst>
         <Header toggleTheme={toggleTheme} title="Sandook"></Header>
         <Root>
-          <Sidebar align="left">{}</Sidebar>
+          {/* <Sidebar align="left">{}</Sidebar> */}
           <Container>
             <Content></Content>
           </Container>
-          <Sidebar align="right">{}</Sidebar>
+          {/* <Sidebar align="right">{}</Sidebar> */}
         </Root>
       </StylesProvider>
     </ThemeProvider>

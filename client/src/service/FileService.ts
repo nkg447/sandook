@@ -2,10 +2,13 @@ import ApiService from '../api/ApiService';
 import { GET_FILE_META } from '../api/file/types';
 import { QueryParams, QueryPath } from '../api/QueryPath';
 import * as services from '../api/ServiceType';
+import AppSettings from '../AppSettings';
 import { File } from '../types/file';
 
+const DOWNLOAD_FILE_PATH = '/api/file';
+
 class FileService {
-  public apiService: ApiService = new ApiService(services.FileService);
+  protected apiService: ApiService = new ApiService(services.FileService);
 
   public constructor() {}
 
@@ -20,6 +23,15 @@ class FileService {
         .then((data) => resolve(data))
         .catch((err) => reject(err));
     });
+  }
+
+  public download(path: string) {
+    const iFrame = document.getElementById('download_iframe');
+    if (iFrame)
+      iFrame.setAttribute(
+        'src',
+        `${AppSettings.server.baseUrl}${DOWNLOAD_FILE_PATH}?path=${path}`
+      );
   }
 }
 const service = new FileService();

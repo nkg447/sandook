@@ -8,6 +8,7 @@ import {
 } from '@material-ui/icons';
 
 import IconText from '../../../../components/IconText';
+import service from '../../../../service/FileService';
 import { File } from '../../../../types/file';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -58,7 +59,13 @@ export default function FileCard({
   return (
     <Root
       {...otherProps}
-      onDoubleClick={() => (onClickHandler ? onClickHandler(path) : null)}
+      onDoubleClick={() => {
+        if (isDir && onClickHandler) {
+          onClickHandler(path);
+        } else {
+          service.download(path);
+        }
+      }}
       outlined
       icon={<Icon />}
     >
