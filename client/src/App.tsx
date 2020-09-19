@@ -15,9 +15,14 @@ import * as Colors from './theme/Colors';
 import { FileState } from './types/file';
 
 export default function App() {
-  const [theme, setTheme] = useState('light');
-  const toggleTheme = () =>
-    theme === 'light' ? setTheme('dark') : setTheme('light');
+  const [theme, setTheme] = useState(
+    localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light'
+  );
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+  };
   return (
     <ThemeProvider theme={{ mode: theme }}>
       <StylesProvider injectFirst>

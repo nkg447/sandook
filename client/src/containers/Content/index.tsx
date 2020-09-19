@@ -6,15 +6,17 @@ import * as actions from '../../actions/file';
 import { RootState } from '../../store';
 import * as Colors from '../../theme/Colors';
 import { FileState } from '../../types/file';
+import CurrentPath from './CurrentPath';
 import FileGroup from './FileGroup';
 
 type Props = ConnectedProps<typeof connector>;
 
 function Content(props: Props) {
-  useEffect(() => props.onUpdateFiles(props.path), [props.path]);
-  const { files, folders } = props;
+  useEffect(() => props.onUpdateFiles(props.path), []);
+  const { files, folders, path } = props;
   return (
     <Root>
+      <CurrentPath onPathChangeHandler={props.onUpdateFiles} path={path} />
       <FileGroup
         onFileCardClick={props.onUpdateFiles}
         type="Folders"
@@ -36,4 +38,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 export default connector(Content);
 
-const Root = styled.div``;
+const Root = styled.div`
+  width: 100%;
+`;

@@ -72,4 +72,5 @@ const Root = styled(IconText)`
   touch-action: pan-x pan-y;
   min-width: 0;
   margin: 7px;
+  cursor: pointer;
 `;
