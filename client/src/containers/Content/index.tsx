@@ -6,6 +6,7 @@ import * as actions from '../../actions/file';
 import { RootState } from '../../store';
 import * as Colors from '../../theme/Colors';
 import { FileState } from '../../types/file';
+import FileGroup from './FileGroup';
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -13,8 +14,13 @@ function Content(props: Props) {
   useEffect(() => props.onUpdateFiles(window.location.pathname), [
     window.location.pathname
   ]);
-
-  return <Root></Root>;
+  const { files, folders } = props;
+  return (
+    <Root>
+      <FileGroup type="Folders" files={folders} />
+      <FileGroup type="Files" files={files} />
+    </Root>
+  );
 }
 
 const mapDispatchToProps = {

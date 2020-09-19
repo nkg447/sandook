@@ -10,12 +10,17 @@ export interface Props {
   outlined?: boolean;
 }
 
-export default function IconText({ icon, children, outlined }: Props) {
+export default function IconText({
+  icon,
+  children,
+  outlined,
+  ...otherProps
+}: Props) {
   const rootStyle: CSS.Properties = {
     border: outlined ? '1px solid lightgrey' : 'none'
   };
   return (
-    <Root style={rootStyle}>
+    <Root {...otherProps} style={rootStyle}>
       <Icon>{icon}</Icon>
       <Text>{children}</Text>
     </Root>
