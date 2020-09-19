@@ -3,11 +3,6 @@ export interface File {
   isDir: boolean;
 }
 
-export interface IUpdateFiles {
-  files: File[];
-  folders: File[];
-}
-
 export interface FileState {
   files: File[];
   folders: File[];

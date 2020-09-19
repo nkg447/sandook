@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import styled from 'styled-components';
 
@@ -10,6 +10,10 @@ import { FileState } from '../../types/file';
 type Props = ConnectedProps<typeof connector>;
 
 function Content(props: Props) {
+  useEffect(() => props.onUpdateFiles(window.location.pathname), [
+    window.location.pathname
+  ]);
+
   return <Root></Root>;
 }
 

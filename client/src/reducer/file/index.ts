@@ -13,7 +13,11 @@ export function fileReducer(
 ): FileState {
   switch (action.type) {
     case UPDATE_FILES:
-      return { ...state, ...action.payload };
+      return {
+        ...state,
+        files: action.payload.filter((file) => !file.isDir),
+        folders: action.payload.filter((file) => file.isDir)
+      };
     default:
       return state;
   }

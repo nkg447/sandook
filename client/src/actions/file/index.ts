@@ -1,18 +1,21 @@
-import { Action } from 'redux';
+import { Action, Dispatch } from 'redux';
 
 import * as constants from '../../constants/file';
-import { IUpdateFiles } from '../../types/file';
+import service from '../../service/FileService';
+import { File } from '../../types/file';
 
 export interface UpdateFiles extends Action {
   type: constants.UPDATE_FILES;
-  payload: IUpdateFiles;
+  payload: File[];
 }
 
 export type FileAction = UpdateFiles;
 
-export function updateFiles(path: string): UpdateFiles {
-  return {
-    type: constants.UPDATE_FILES,
-    payload: { files: [], folders: [] }
-  };
-}
+export const updateFiles = (path: string) => (dispatch: Dispatch) => {
+  service.getMetaData(path).then((data) =>
+    dispatch({
+      type: constants.UPDATE_FILES,
+      payload: data
+    })
+  );
+};

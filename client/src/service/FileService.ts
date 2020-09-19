@@ -1,11 +1,8 @@
 import ApiService from '../api/ApiService';
-import { QueryParams, QueryPath, QueryType } from '../api/QueryPath';
+import { GET_FILE_META } from '../api/file/types';
+import { QueryParams, QueryPath } from '../api/QueryPath';
 import * as services from '../api/ServiceType';
-
-interface File {
-  path: string;
-  isDir: boolean;
-}
+import { File } from '../types/file';
 
 class FileService {
   public apiService: ApiService = new ApiService(services.FileService);
@@ -16,10 +13,7 @@ class FileService {
     const queryParams: QueryParams = {
       path
     };
-    const queryPath: QueryPath = new QueryPath(
-      QueryType.GET_FILE_META,
-      queryParams
-    );
+    const queryPath: QueryPath = new QueryPath(GET_FILE_META, queryParams);
     return new Promise<File[] | Error>((resolve, reject) => {
       this.apiService
         .get<File[]>(queryPath)

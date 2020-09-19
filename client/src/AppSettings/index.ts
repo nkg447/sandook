@@ -6,12 +6,12 @@ interface IAppSetting {
 
 const prod: IAppSetting = {
   server: {
-    baseUrl: window.location.host
+    baseUrl: window.location.origin
   }
 };
 const dev: IAppSetting = {
   server: {
-    baseUrl: window.location.host.replace(':3000', ':5000')
+    baseUrl: window.location.origin.replace(':3000', ':5000')
   }
 };
 
