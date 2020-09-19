@@ -10,10 +10,11 @@ import * as actions from './actions/file';
 import Header from './components/Header';
 import IconText from './components/IconText';
 import Sidebar from './components/Sidebar';
+import Content from './containers/Content';
 import * as Colors from './theme/Colors';
 import { FileState } from './types/file';
 
-function App(props: FileState) {
+export default function App() {
   const [theme, setTheme] = useState('light');
   const toggleTheme = () =>
     theme === 'light' ? setTheme('dark') : setTheme('light');
@@ -24,10 +25,7 @@ function App(props: FileState) {
         <Root>
           <Sidebar align="left">{}</Sidebar>
           <Container>
-            <IconText outlined icon={<Folder />}>Hello World! Its Node</IconText>
-            <IconText outlined icon={<Folder />}>Hello World! Its Node</IconText>
-            <IconText outlined icon={<Folder />}>Hello World! Its Node</IconText>
-            <IconText outlined icon={<Folder />}>Hello World! Its Node</IconText>
+            <Content></Content>
           </Container>
           <Sidebar align="right">{}</Sidebar>
         </Root>
@@ -35,17 +33,6 @@ function App(props: FileState) {
     </ThemeProvider>
   );
 }
-
-export function mapDispatchToProps(dispatch: Dispatch<actions.FileAction>) {
-  return {
-    onUpdateFiles: (path: string) => dispatch(actions.updateFiles(path))
-  };
-}
-export function mapStateToProps(state: FileState) {
-  return state;
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 const Root = styled.div`
   background-color: ${Colors.backgroundColor};
