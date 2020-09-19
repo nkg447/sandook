@@ -4,7 +4,8 @@ import { FileState } from '../../types/file';
 
 const initialFileState: FileState = {
   files: [],
-  folders: []
+  folders: [],
+  path: window.location.pathname
 };
 
 export function fileReducer(
@@ -13,10 +14,12 @@ export function fileReducer(
 ): FileState {
   switch (action.type) {
     case UPDATE_FILES:
+      const { files, path } = action.payload;
       return {
         ...state,
-        files: action.payload.filter((file) => !file.isDir),
-        folders: action.payload.filter((file) => file.isDir)
+        path,
+        files: files.filter((file) => !file.isDir),
+        folders: files.filter((file) => file.isDir)
       };
     default:
       return state;

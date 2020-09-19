@@ -8,15 +8,20 @@ import FileCard from './FileCard';
 interface Props {
   files: File[];
   type: string;
+  onFileCardClick?: (path: string) => void;
 }
 
-export default function FileGroup({ files, type }: Props) {
+export default function FileGroup({ files, type, onFileCardClick }: Props) {
   return (
     <>
       <Header>{type}</Header>
       <Root>
         {files.map((file, i) => (
-          <FileCard file={file} key={i} />
+          <FileCard
+            onClickHandler={onFileCardClick ? onFileCardClick : undefined}
+            file={file}
+            key={i}
+          />
         ))}
       </Root>
     </>

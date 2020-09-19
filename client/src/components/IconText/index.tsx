@@ -4,11 +4,11 @@ import styled from 'styled-components';
 
 import * as Colors from '../../theme/Colors';
 
-export interface Props {
+type Props = React.HTMLAttributes<HTMLDivElement> & {
   children: string;
   icon: any;
   outlined?: boolean;
-}
+};
 
 export default function IconText({
   icon,

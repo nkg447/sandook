@@ -6,4 +6,5 @@ export interface File {
 export interface FileState {
   files: File[];
   folders: File[];
+  path: string;
 }

@@ -11,13 +11,15 @@ import FileGroup from './FileGroup';
 type Props = ConnectedProps<typeof connector>;
 
 function Content(props: Props) {
-  useEffect(() => props.onUpdateFiles(window.location.pathname), [
-    window.location.pathname
-  ]);
+  useEffect(() => props.onUpdateFiles(props.path), [props.path]);
   const { files, folders } = props;
   return (
     <Root>
-      <FileGroup type="Folders" files={folders} />
+      <FileGroup
+        onFileCardClick={props.onUpdateFiles}
+        type="Folders"
+        files={folders}
+      />
       <FileGroup type="Files" files={files} />
     </Root>
   );

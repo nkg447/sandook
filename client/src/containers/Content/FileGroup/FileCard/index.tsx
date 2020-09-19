@@ -10,9 +10,10 @@ import {
 import IconText from '../../../../components/IconText';
 import { File } from '../../../../types/file';
 
-interface Props {
+type Props = React.HTMLAttributes<HTMLDivElement> & {
   file: File;
-}
+  onClickHandler?: (path: string) => void;
+};
 
 const mime = require('mime-types');
 
@@ -46,12 +47,21 @@ const isImage = (address: string): boolean => {
   return mimeType && mimeType.startsWith('image');
 };
 
-export default function FileCard({ file }: Props) {
+export default function FileCard({
+  file,
+  onClickHandler,
+  ...otherProps
+}: Props) {
   const { isDir, path } = file;
   const Icon = isDir ? Folder : pathToIcon(path);
   const name = _path.basename(path);
   return (
-    <Root outlined icon={<Icon />}>
+    <Root
+      {...otherProps}
+      onDoubleClick={() => (onClickHandler ? onClickHandler(path) : null)}
+      outlined
+      icon={<Icon />}
+    >
       {name}
     </Root>
   );
