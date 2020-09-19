@@ -6,7 +6,7 @@ import AxiosInstance from './AxiosInstance';
 import { QueryPath } from './QueryPath';
 import { ServiceType } from './ServiceType';
 
-class ApiService {
+export default class ApiService {
   protected readonly serviceType: ServiceType;
 
   public constructor(serviceType: ServiceType) {

@@ -1,4 +1,4 @@
-enum QueryType {
+export enum QueryType {
   GET_FILE_META = ''
 }
 export interface QueryParams {
