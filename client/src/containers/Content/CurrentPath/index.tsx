@@ -15,10 +15,10 @@ export default function CurrentPath({ path, onPathChangeHandler }: Props) {
     .split('/')
     .map((folder, index) => ({ name: folder, index }))
     .filter((folder) => folder.name.length > 0);
-  if (folders.length > 3) {
+  if (folders.length > 2) {
     folders = [
       { name: '...', index: -1 },
-      ...folders.slice(folders.length - 3)
+      ...folders.slice(folders.length - 2)
     ];
   }
 
