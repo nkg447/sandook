@@ -53,31 +53,50 @@ export default function FileCard({
   onClickHandler,
   ...otherProps
 }: Props) {
-  const { isDir, path } = file;
+  const { isDir, path, progress } = file;
   const Icon = isDir ? Folder : pathToIcon(path);
   const name = _path.basename(path);
   return (
-    <Root
-      {...otherProps}
-      onDoubleClick={() => {
-        if (isDir && onClickHandler) {
-          onClickHandler(path);
-        } else {
-          service.download(path);
-        }
-      }}
-      outlined
-      icon={<Icon />}
-    >
-      {name}
+    <Root>
+      <IconText
+        {...otherProps}
+        onDoubleClick={() => {
+          if (isDir && onClickHandler) {
+            onClickHandler(path);
+          } else {
+            service.download(path);
+          }
+        }}
+        outlined
+        icon={<Icon />}
+      >
+        {name}
+      </IconText>
+      {progress ? (
+        <ProgressBar>
+          <ProgressStatus style={{ width: `${progress}%` }} />
+        </ProgressBar>
+      ) : null}
     </Root>
   );
 }
 
-const Root = styled(IconText)`
+const Root = styled.div`
   max-width: 100%;
   touch-action: pan-x pan-y;
   min-width: 0;
   margin: 7px;
   cursor: pointer;
+`;
+
+const ProgressBar = styled.div`
+  height: 10px;
+  border-radius: 6px;
+  width: 100%;
+  background-color: lightgrey;
+`;
+const ProgressStatus = styled.div`
+  background-color: blue;
+  border-radius: 6px;
+  height: 100%;
 `;

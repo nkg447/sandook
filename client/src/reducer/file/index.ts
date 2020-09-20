@@ -1,5 +1,5 @@
 import { FileAction } from '../../actions/file';
-import { UPDATE_FILES } from '../../constants/file';
+import { UPDATE_FILES, UPLOAD_FILE } from '../../constants/file';
 import { FileState } from '../../types/file';
 
 const initialFileState: FileState = {
@@ -12,6 +12,7 @@ export function fileReducer(
   state: FileState = initialFileState,
   action: FileAction
 ): FileState {
+  console.log(action);
   switch (action.type) {
     case UPDATE_FILES:
       const { files, path } = action.payload;
@@ -20,6 +21,14 @@ export function fileReducer(
         path,
         files: files.filter((file) => !file.isDir),
         folders: files.filter((file) => file.isDir)
+      };
+    case UPLOAD_FILE:
+      return {
+        ...state,
+        files: [
+          ...state.files.filter((file) => file.path !== action.payload.path),
+          action.payload
+        ]
       };
     default:
       return state;

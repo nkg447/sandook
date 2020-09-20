@@ -34,7 +34,6 @@ const Root = styled.div`
   display: block;
   flex: 1 0 auto;
   width: 100%;
-  min-height: 100%;
   display: grid;
   grid-gap: 0;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

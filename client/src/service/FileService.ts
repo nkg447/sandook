@@ -6,6 +6,7 @@ import AppSettings from '../AppSettings';
 import { File } from '../types/file';
 
 const DOWNLOAD_FILE_PATH = '/api/file';
+const UPLOAD_FILE_PATH = '/api/file';
 
 class FileService {
   protected apiService: ApiService = new ApiService(services.FileService);
@@ -32,6 +33,29 @@ class FileService {
         'src',
         `${AppSettings.server.baseUrl}${DOWNLOAD_FILE_PATH}?path=${path}`
       );
+  }
+
+  public upload(
+    file: any,
+    path: string,
+    progressHandler: (this: XMLHttpRequestUpload) => void
+  ) {
+    const xhr = new XMLHttpRequest();
+    const fd = new FormData();
+    fd.append('multipartFile', file);
+    xhr.upload.addEventListener('progress', progressHandler, false);
+    xhr.addEventListener(
+      'error',
+      () => {
+        console.log('failed');
+      },
+      false
+    );
+    xhr.open(
+      'POST',
+      `${AppSettings.server.baseUrl}${UPLOAD_FILE_PATH}?path=${path}`
+    );
+    xhr.send(fd);
   }
 }
 const service = new FileService();

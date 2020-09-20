@@ -14,11 +14,14 @@ export default function IconText({
   icon,
   children,
   outlined,
+  style,
   ...otherProps
 }: Props) {
-  const rootStyle: CSS.Properties = {
-    border: outlined ? '1px solid lightgrey' : 'none'
-  };
+  const rootStyle: React.CSSProperties = { ...style };
+  if (outlined) {
+    rootStyle.border = '1px solid lightgrey';
+    rootStyle.borderRadius = '6px';
+  }
   return (
     <Root {...otherProps} style={rootStyle}>
       <Icon>{icon}</Icon>
@@ -31,7 +34,6 @@ const Root = styled.div`
   display: flex;
   align-items: center;
   cursor: inherit;
-  border-radius: 6px;
   color: ${Colors.textColor};
 `;
 

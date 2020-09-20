@@ -1,6 +1,7 @@
 export interface File {
   path: string;
   isDir: boolean;
+  progress?: number;
 }
 
 export interface FileState {
