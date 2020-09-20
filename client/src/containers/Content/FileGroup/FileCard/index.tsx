@@ -1,5 +1,5 @@
 import _path from 'path';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -9,7 +9,9 @@ import {
 
 import IconText from '../../../../components/IconText';
 import service from '../../../../service/FileService';
+import { Position } from '../../../../types';
 import { File } from '../../../../types/file';
+import FileContextMenu from './FileContextMenu';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   file: File;
@@ -56,8 +58,22 @@ export default function FileCard({
   const { isDir, path, progress } = file;
   const Icon = isDir ? Folder : pathToIcon(path);
   const name = _path.basename(path);
+  const [isContextMenuVisible, setContextMenuVisible] = useState(false);
+  const [position, setPosition] = useState<Position>({});
+  const onContextMenuHandler = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setPosition({ top: e.clientY, left: e.clientX });
+    setContextMenuVisible(true);
+  };
+  const ref = React.createRef<HTMLDivElement>();
   return (
-    <Root>
+    <Root ref={ref} onContextMenu={onContextMenuHandler}>
+      {isContextMenuVisible ? (
+        <FileContextMenu contextFor={ref} folderPath={path} {...position} />
+      ) : null}
       <IconText
         {...otherProps}
         onDoubleClick={() => {

@@ -5,19 +5,13 @@ import styled from 'styled-components';
 import * as actions from '../../actions/file';
 import { RootState } from '../../store';
 import * as Colors from '../../theme/Colors';
+import { Position } from '../../types';
 import { FileState } from '../../types/file';
 import BodyContextMenu from './BodyContextMenu';
 import CurrentPath from './CurrentPath';
 import FileGroup from './FileGroup';
 
 type Props = ConnectedProps<typeof connector>;
-
-type Position = {
-  top?: number;
-  left?: number;
-  right?: number;
-  bottom?: number;
-};
 
 function Content(props: Props) {
   useEffect(() => props.onUpdateFiles(props.path), []);
@@ -32,11 +26,15 @@ function Content(props: Props) {
     setPosition({ top: e.clientY, left: e.clientX });
     setContextMenuVisible(true);
   };
+  const uploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target && e.target.files && e.target.files.length > 0) {
+      const uploadFile = e.target.files[0];
+      props.uploadFile(uploadFile, props.path);
+    }
+  };
+  const ref = React.createRef<HTMLDivElement>();
   return (
-    <Root
-      onClick={() => setContextMenuVisible(false)}
-      onContextMenu={onContextMenuHandler}
-    >
+    <Root ref={ref} onContextMenu={onContextMenuHandler}>
       <CurrentPath onPathChangeHandler={props.onUpdateFiles} path={path} />
       <FileGroup
         onFileCardClick={(path: string) => {
@@ -47,13 +45,21 @@ function Content(props: Props) {
         files={folders}
       />
       <FileGroup type="Files" files={files} />
-      <BodyContextMenu visible={isContextMenuVisible} {...position} />
+      {isContextMenuVisible ? <BodyContextMenu contextFor={ref} {...position} /> : null}
+      <input
+        onChange={uploadHandler}
+        id="upload"
+        name="file"
+        type="file"
+        style={{ display: 'none' }}
+      />
     </Root>
   );
 }
 
 const mapDispatchToProps = {
-  onUpdateFiles: (path: string) => actions.updateFiles(path)
+  onUpdateFiles: (path: string) => actions.updateFiles(path),
+  uploadFile: (file: any, path: string) => actions.uploadFile(file, path)
 };
 
 function mapStateToProps(state: RootState): FileState {
