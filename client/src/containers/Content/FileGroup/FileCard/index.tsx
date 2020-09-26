@@ -68,11 +68,10 @@ export default function FileCard({
     setPosition({ top: e.clientY, left: e.clientX });
     setContextMenuVisible(true);
   };
-  const ref = React.createRef<HTMLDivElement>();
   return (
-    <Root ref={ref} onContextMenu={onContextMenuHandler}>
+    <Root onContextMenu={onContextMenuHandler}>
       {isContextMenuVisible ? (
-        <FileContextMenu contextFor={ref} folderPath={path} {...position} />
+        <FileContextMenu folderPath={path} {...position} />
       ) : null}
       <IconText
         {...otherProps}

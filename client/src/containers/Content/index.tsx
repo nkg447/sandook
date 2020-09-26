@@ -32,9 +32,8 @@ function Content(props: Props) {
       props.uploadFile(uploadFile, props.path);
     }
   };
-  const ref = React.createRef<HTMLDivElement>();
   return (
-    <Root ref={ref} onContextMenu={onContextMenuHandler}>
+    <Root onContextMenu={onContextMenuHandler}>
       <CurrentPath onPathChangeHandler={props.onUpdateFiles} path={path} />
       <FileGroup
         onFileCardClick={(path: string) => {
@@ -45,7 +44,7 @@ function Content(props: Props) {
         files={folders}
       />
       <FileGroup type="Files" files={files} />
-      {isContextMenuVisible ? <BodyContextMenu contextFor={ref} {...position} /> : null}
+      {isContextMenuVisible ? <BodyContextMenu {...position} /> : null}
       <input
         onChange={uploadHandler}
         id="upload"

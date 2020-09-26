@@ -19,7 +19,6 @@ type Props = React.HTMLAttributes<HTMLDivElement> &
     right?: number;
     bottom?: number;
     folderPath?: string;
-    contextFor: any;
   };
 
 function FileContextMenu({
@@ -28,13 +27,12 @@ function FileContextMenu({
   right,
   bottom,
   folderPath,
-  contextFor,
   ...otherProps
 }: Props) {
   const position = { top, left, right, bottom };
 
   return (
-    <Root contextFor={contextFor} {...position}>
+    <Root {...position}>
       {folderPath ? (
         <StyledIconText
           onClick={() => otherProps.onUpdateFiles(folderPath)}

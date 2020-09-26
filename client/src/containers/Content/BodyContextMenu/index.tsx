@@ -14,7 +14,6 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   left?: number;
   right?: number;
   bottom?: number;
-  contextFor: any;
 };
 
 export default function BodyContextMenu({
@@ -22,12 +21,11 @@ export default function BodyContextMenu({
   left,
   right,
   bottom,
-  contextFor,
   ...otherProps
 }: Props) {
   const position = { top, left, right, bottom };
   return (
-    <Root contextFor={contextFor} {...position}>
+    <Root {...position}>
       <label
         onClick={(e) => e.stopPropagation()}
         style={{ width: '100%', height: '100%' }}
