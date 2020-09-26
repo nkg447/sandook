@@ -1,5 +1,5 @@
 import { FileAction } from '../../actions/file';
-import { NEW_FOLDER, UPDATE_FILES, UPLOAD_FILE } from '../../constants/file';
+import { DELETE_FILE, NEW_FOLDER, UPDATE_FILES, UPLOAD_FILE } from '../../constants/file';
 import { FileState } from '../../types/file';
 
 const initialFileState: FileState = {
@@ -37,6 +37,14 @@ export function fileReducer(
           ...state.folders.filter((file) => file.path !== action.payload.path),
           action.payload
         ]
+      };
+    case DELETE_FILE:
+      return {
+        ...state,
+        folders: [
+          ...state.folders.filter((file) => file.path !== action.payload)
+        ],
+        files: [...state.files.filter((file) => file.path !== action.payload)]
       };
     default:
       return state;

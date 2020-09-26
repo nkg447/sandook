@@ -74,7 +74,7 @@ export default function FileCard({
       {isContextMenuVisible ? (
         <FileContextMenu
           closeContextMenu={closeContextMenu}
-          folderPath={path}
+          file={file}
           {...position}
         />
       ) : null}

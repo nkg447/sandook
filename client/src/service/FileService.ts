@@ -71,6 +71,19 @@ class FileService {
         .catch((err) => reject(err));
     });
   }
+
+  public delete(path: string) {
+    const queryParams: QueryParams = {
+      path
+    };
+    const queryPath: QueryPath = new QueryPath([], queryParams);
+    return new Promise<any>((resolve, reject) => {
+      this.apiService
+        .delete<any>(queryPath)
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
+    });
+  }
 }
 const service = new FileService();
 

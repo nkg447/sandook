@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import styled from 'styled-components';
 
-import { FolderOpen } from '@material-ui/icons';
+import { DeleteForever, FolderOpen } from '@material-ui/icons';
 
 import * as actions from '../../../../../actions/file';
 import ContextMenu from '../../../../../components/ContextMenu';
@@ -10,7 +10,7 @@ import IconText from '../../../../../components/IconText';
 import Spliter from '../../../../../components/Spliter';
 import { RootState } from '../../../../../store';
 import * as Colors from '../../../../../theme/Colors';
-import { FileState } from '../../../../../types/file';
+import { File, FileState } from '../../../../../types/file';
 
 type Props = React.HTMLAttributes<HTMLDivElement> &
   ConnectedProps<typeof connector> & {
@@ -18,7 +18,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> &
     left?: number;
     right?: number;
     bottom?: number;
-    folderPath?: string;
+    file: File;
     closeContextMenu: () => void;
   };
 
@@ -27,7 +27,7 @@ function FileContextMenu({
   left,
   right,
   bottom,
-  folderPath,
+  file,
   closeContextMenu,
   ...otherProps
 }: Props) {
@@ -35,23 +35,33 @@ function FileContextMenu({
 
   return (
     <Root {...position}>
-      {folderPath ? (
+      {file?.isDir ? (
         <StyledIconText
           onClick={() => {
             closeContextMenu();
-            otherProps.onUpdateFiles(folderPath);
+            otherProps.onUpdateFiles(file.path);
           }}
           icon={<FolderOpen />}
         >
           Open Folder
         </StyledIconText>
       ) : null}
+      <StyledIconText
+        onClick={() => {
+          closeContextMenu();
+          otherProps.onDeletFile(file.path);
+        }}
+        icon={<DeleteForever />}
+      >
+        Remove
+      </StyledIconText>
     </Root>
   );
 }
 
 const mapDispatchToProps = {
-  onUpdateFiles: (path: string) => actions.updateFiles(path)
+  onUpdateFiles: (path: string) => actions.updateFiles(path),
+  onDeletFile: (path: string) => actions.deleteFile(path)
 };
 
 function mapStateToProps(state: RootState): FileState {

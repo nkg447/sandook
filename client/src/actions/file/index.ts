@@ -23,7 +23,16 @@ export interface CreateNewFolder extends Action {
   payload: File;
 }
 
-export type FileAction = UpdateFiles | UploadFile | CreateNewFolder;
+export interface DeleteFile extends Action {
+  type: constants.DELETE_FILE;
+  payload: string;
+}
+
+export type FileAction =
+  | UpdateFiles
+  | UploadFile
+  | CreateNewFolder
+  | DeleteFile;
 
 export const updateFiles = (path: string) => (dispatch: Dispatch) => {
   service.getMetaData(path).then((data) =>
@@ -76,6 +85,15 @@ export const createNewFolder = (path: string, folderName: string) => (
         path: _path.join(path, folderName),
         isDir: true
       }
+    })
+  );
+};
+
+export const deleteFile = (path: string) => (dispatch: Dispatch) => {
+  service.delete(path).then((data) =>
+    dispatch({
+      type: constants.DELETE_FILE,
+      payload: path
     })
   );
 };
