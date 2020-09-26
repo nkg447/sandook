@@ -18,7 +18,12 @@ export interface UploadFile extends Action {
   payload: File;
 }
 
-export type FileAction = UpdateFiles | UploadFile;
+export interface CreateNewFolder extends Action {
+  type: constants.NEW_FOLDER;
+  payload: File;
+}
+
+export type FileAction = UpdateFiles | UploadFile | CreateNewFolder;
 
 export const updateFiles = (path: string) => (dispatch: Dispatch) => {
   service.getMetaData(path).then((data) =>
@@ -59,4 +64,18 @@ export const uploadFile = (file: any, path: string) => (dispatch: Dispatch) => {
     };
   }
   service.upload(file, path, processHandler);
+};
+
+export const createNewFolder = (path: string, folderName: string) => (
+  dispatch: Dispatch
+) => {
+  service.newFolder(path, folderName).then((data) =>
+    dispatch({
+      type: constants.NEW_FOLDER,
+      payload: {
+        path: _path.join(path, folderName),
+        isDir: true
+      }
+    })
+  );
 };

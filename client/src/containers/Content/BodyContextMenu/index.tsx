@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import styled from 'styled-components';
 
@@ -14,6 +14,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   left?: number;
   right?: number;
   bottom?: number;
+  onNewFolderClick: ()=>void;
 };
 
 export default function BodyContextMenu({
@@ -21,6 +22,7 @@ export default function BodyContextMenu({
   left,
   right,
   bottom,
+  onNewFolderClick,
   ...otherProps
 }: Props) {
   const position = { top, left, right, bottom };
@@ -34,7 +36,12 @@ export default function BodyContextMenu({
         <StyledIconText icon={<CloudUpload />}>Upload File</StyledIconText>
       </label>
       <Spliter />
-      <StyledIconText icon={<CreateNewFolder />}>New Folder</StyledIconText>
+      <StyledIconText
+        onClick={onNewFolderClick}
+        icon={<CreateNewFolder />}
+      >
+        New Folder
+      </StyledIconText>
     </Root>
   );
 }
@@ -45,4 +52,5 @@ const Root = styled(ContextMenu)`
 const StyledIconText = styled(IconText)`
   color: ${Colors.textColor};
   min-width: 200px;
+  cursor: pointer;
 `;

@@ -10,6 +10,7 @@ import { FileState } from '../../types/file';
 import BodyContextMenu from './BodyContextMenu';
 import CurrentPath from './CurrentPath';
 import FileGroup from './FileGroup';
+import NewFolderModal from './NewFolderModal';
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -18,6 +19,7 @@ function Content(props: Props) {
   const { files, folders, path } = props;
   const [isContextMenuVisible, setContextMenuVisible] = useState(false);
   const [position, setPosition] = useState<Position>({});
+  const [newFolderModalVisible, setNewFolderModalVisible] = useState(false);
   const onContextMenuHandler = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -32,8 +34,14 @@ function Content(props: Props) {
       props.uploadFile(uploadFile, props.path);
     }
   };
+  const newFolderHandler = (folderName: string) => {
+    props.createNewFolder(path, folderName);
+  };
   return (
-    <Root onContextMenu={onContextMenuHandler} onClick={()=>setContextMenuVisible(false)}>
+    <Root
+      onContextMenu={onContextMenuHandler}
+      onClick={() => setContextMenuVisible(false)}
+    >
       <CurrentPath onPathChangeHandler={props.onUpdateFiles} path={path} />
       <FileGroup
         onFileCardClick={(path: string) => {
@@ -44,7 +52,12 @@ function Content(props: Props) {
         files={folders}
       />
       <FileGroup type="Files" files={files} />
-      {isContextMenuVisible ? <BodyContextMenu {...position} /> : null}
+      {isContextMenuVisible ? (
+        <BodyContextMenu
+          onNewFolderClick={() => setNewFolderModalVisible(true)}
+          {...position}
+        />
+      ) : null}
       <input
         onChange={uploadHandler}
         id="upload"
@@ -52,13 +65,21 @@ function Content(props: Props) {
         type="file"
         style={{ display: 'none' }}
       />
+      {newFolderModalVisible ? (
+        <NewFolderModal
+          newFolderHandler={newFolderHandler}
+          closeModal={() => setNewFolderModalVisible(false)}
+        />
+      ) : null}
     </Root>
   );
 }
 
 const mapDispatchToProps = {
   onUpdateFiles: (path: string) => actions.updateFiles(path),
-  uploadFile: (file: any, path: string) => actions.uploadFile(file, path)
+  uploadFile: (file: any, path: string) => actions.uploadFile(file, path),
+  createNewFolder: (path: string, folderName: string) =>
+    actions.createNewFolder(path, folderName)
 };
 
 function mapStateToProps(state: RootState): FileState {

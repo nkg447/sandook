@@ -1,5 +1,5 @@
 import ApiService from '../api/ApiService';
-import { GET_FILE_META } from '../api/file/types';
+import { GET_FILE_META, NEW_FOLDER } from '../api/file/types';
 import { QueryParams, QueryPath } from '../api/QueryPath';
 import * as services from '../api/ServiceType';
 import AppSettings from '../AppSettings';
@@ -56,6 +56,20 @@ class FileService {
       `${AppSettings.server.baseUrl}${UPLOAD_FILE_PATH}?path=${path}`
     );
     xhr.send(fd);
+  }
+
+  public newFolder(path: string, folderName: string) {
+    const queryParams: QueryParams = {
+      path,
+      folderName
+    };
+    const queryPath: QueryPath = new QueryPath(NEW_FOLDER, queryParams);
+    return new Promise<any>((resolve, reject) => {
+      this.apiService
+        .get<any>(queryPath)
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
+    });
   }
 }
 const service = new FileService();
