@@ -19,6 +19,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> &
     right?: number;
     bottom?: number;
     folderPath?: string;
+    closeContextMenu: () => void;
   };
 
 function FileContextMenu({
@@ -27,6 +28,7 @@ function FileContextMenu({
   right,
   bottom,
   folderPath,
+  closeContextMenu,
   ...otherProps
 }: Props) {
   const position = { top, left, right, bottom };
@@ -35,7 +37,10 @@ function FileContextMenu({
     <Root {...position}>
       {folderPath ? (
         <StyledIconText
-          onClick={() => otherProps.onUpdateFiles(folderPath)}
+          onClick={() => {
+            closeContextMenu();
+            otherProps.onUpdateFiles(folderPath);
+          }}
           icon={<FolderOpen />}
         >
           Open Folder

@@ -33,7 +33,7 @@ function Content(props: Props) {
     }
   };
   return (
-    <Root onContextMenu={onContextMenuHandler}>
+    <Root onContextMenu={onContextMenuHandler} onClick={()=>setContextMenuVisible(false)}>
       <CurrentPath onPathChangeHandler={props.onUpdateFiles} path={path} />
       <FileGroup
         onFileCardClick={(path: string) => {

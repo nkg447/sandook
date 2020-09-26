@@ -68,10 +68,15 @@ export default function FileCard({
     setPosition({ top: e.clientY, left: e.clientX });
     setContextMenuVisible(true);
   };
+  const closeContextMenu = () => setContextMenuVisible(false);
   return (
-    <Root onContextMenu={onContextMenuHandler}>
+    <Root onClick={closeContextMenu} onContextMenu={onContextMenuHandler}>
       {isContextMenuVisible ? (
-        <FileContextMenu folderPath={path} {...position} />
+        <FileContextMenu
+          closeContextMenu={closeContextMenu}
+          folderPath={path}
+          {...position}
+        />
       ) : null}
       <IconText
         {...otherProps}
