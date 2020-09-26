@@ -134,6 +134,42 @@
             }
           }
       },
+      "/api/file/newFolder": {
+        "get": {
+          "description": "Returns meta data about the path passed in params",
+          "tags": [
+            "File"
+          ],
+          "parameters": [
+            {
+              "name": "path",
+              "in": "query",
+              "required": true,
+              "type": "string"
+            },
+            {
+                "name": "folderName",
+                "in": "query",
+                "required": true,
+                "type": "string"
+              }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "$ref": "#/definitions/OPStatus"
+              }
+            },
+            "500": {
+              "description": "Error",
+              "schema": {
+                "$ref": "#/definitions/OPStatus"
+              }
+            }
+          }
+        }
+      },
     "/auth/login": {
       "get": {
         "security": [

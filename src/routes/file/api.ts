@@ -83,4 +83,27 @@ function remove(req: Request, res: Response, next: NextFunction) {
     });
 }
 
-export { fetch, upload, download, remove };
+function newFolder(req: Request, res: Response, next: NextFunction) {
+  let path: string = '';
+  let folderName: string = '';
+  if (req.query && req.query.path && typeof req.query.path === 'string') {
+    path = req.query.path;
+  }
+  if (
+    req.query &&
+    req.query.folderName &&
+    typeof req.query.folderName === 'string'
+  ) {
+    folderName = req.query.folderName;
+  }
+  controller
+    .newFolder(path, folderName)
+    .then((status: StandardError | StandardSuccess) => {
+      res.send(status);
+    })
+    .catch((error: StandardError | StandardSuccess) => {
+      res.status(500).send(error);
+    });
+}
+
+export { fetch, upload, download, remove, newFolder };

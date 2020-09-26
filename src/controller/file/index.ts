@@ -95,4 +95,21 @@ export default class FileController implements IFileService {
       }
     );
   }
+
+  public newFolder(path: string, folderName: string) {
+    return new Promise<StandardError | StandardSuccess>((resolve, reject) => {
+      try {
+        const absolutePath = _path.join(Config.basePath, path, folderName);
+        ensurePath(absolutePath);
+        analyseAndCreateMetaFile(absolutePath);
+        info(`"${folderName}" folder created at ${path}`);
+        resolve(
+          new ControllerSuccess(`"${folderName}" folder created at ${path}`)
+        );
+      } catch (err) {
+        info(`Unable to create new folder "${folderName}" at ${path}`);
+        reject(new ControllerError(err));
+      }
+    });
+  }
 }

@@ -12,4 +12,8 @@ export default interface IFileService {
   ) => Promise<StandardError | StandardSuccess>;
   download: (path: string) => Promise<StandardError | string>;
   remove: (path: string) => Promise<StandardError | StandardSuccess>;
+  newFolder: (
+    path: string,
+    folderName: string
+  ) => Promise<StandardError | StandardSuccess>;
 }
