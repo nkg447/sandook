@@ -16,4 +16,8 @@ export default interface IFileService {
     path: string,
     folderName: string
   ) => Promise<StandardError | StandardSuccess>;
+  rename: (
+    srcPath: string,
+    destPath: string
+  ) => Promise<StandardError | StandardSuccess>;
 }

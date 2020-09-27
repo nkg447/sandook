@@ -112,4 +112,26 @@ export default class FileController implements IFileService {
       }
     });
   }
+
+  public rename(srcPath: string, destPath: string) {
+    return new Promise<StandardError | StandardSuccess>((resolve, reject) => {
+      try {
+        const srcAbsolutePath = _path.join(Config.basePath, srcPath);
+        const destAbsolutePath = _path.join(Config.basePath, destPath);
+        fs.rename(srcAbsolutePath, destAbsolutePath, (err) => {
+          if (err) {
+            reject(new ControllerError(err.message));
+          } else {
+            info(`"${srcPath}" renamed as ${destPath}`);
+            resolve(
+              new ControllerSuccess(`"${srcPath}" renamed as ${destPath}`)
+            );
+          }
+        });
+      } catch (err) {
+        info(`Unable to rename "${srcPath}" as ${destPath}`);
+        reject(new ControllerError(err));
+      }
+    });
+  }
 }

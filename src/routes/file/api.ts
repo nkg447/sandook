@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import fileUpload from 'express-fileupload';
 
+import { ControllerError } from '../../core/controller/definition';
 import { container } from '../../di';
 import { TYPES } from '../../di/types';
 import { File } from '../../entity/file';
@@ -21,6 +22,10 @@ function upload(req: Request, res: Response, next: NextFunction) {
   if (req.files) {
     files = req.files;
   }
+  if (path.length === 0) {
+    res.send(400).send(new ControllerError('parameters missing'));
+    return;
+  }
   controller
     .upload(path, files)
     .then((status: StandardError | StandardSuccess) => {
@@ -35,6 +40,10 @@ function fetch(req: Request, res: Response, next: NextFunction) {
   let path: string = '';
   if (req.query && req.query.path && typeof req.query.path === 'string') {
     path = req.query.path;
+  }
+  if (path.length === 0) {
+    res.send(400).send(new ControllerError('parameters missing'));
+    return;
   }
   controller
     .fetch(path)
@@ -54,6 +63,10 @@ function download(req: Request, res: Response, next: NextFunction) {
   if (req.query && req.query.path && typeof req.query.path === 'string') {
     path = req.query.path;
   }
+  if (path.length === 0) {
+    res.send(400).send(new ControllerError('parameters missing'));
+    return;
+  }
   controller
     .download(path)
     .then((filePath: StandardError | string) => {
@@ -72,6 +85,10 @@ function remove(req: Request, res: Response, next: NextFunction) {
   let path: string = '';
   if (req.query && req.query.path && typeof req.query.path === 'string') {
     path = req.query.path;
+  }
+  if (path.length === 0) {
+    res.send(400).send(new ControllerError('parameters missing'));
+    return;
   }
   controller
     .remove(path)
@@ -96,6 +113,10 @@ function newFolder(req: Request, res: Response, next: NextFunction) {
   ) {
     folderName = req.query.folderName;
   }
+  if (path.length === 0 || folderName.length === 0) {
+    res.send(400).send(new ControllerError('parameters missing'));
+    return;
+  }
   controller
     .newFolder(path, folderName)
     .then((status: StandardError | StandardSuccess) => {
@@ -106,4 +127,31 @@ function newFolder(req: Request, res: Response, next: NextFunction) {
     });
 }
 
-export { fetch, upload, download, remove, newFolder };
+function rename(req: Request, res: Response, next: NextFunction) {
+  let srcPath: string = '';
+  let destPath: string = '';
+  if (req.query && req.query.srcPath && typeof req.query.srcPath === 'string') {
+    srcPath = req.query.srcPath;
+  }
+  if (
+    req.query &&
+    req.query.destPath &&
+    typeof req.query.destPath === 'string'
+  ) {
+    destPath = req.query.destPath;
+  }
+  if (srcPath.length === 0 || destPath.length === 0) {
+    res.send(400).send(new ControllerError('parameters missing'));
+    return;
+  }
+  controller
+    .rename(srcPath, destPath)
+    .then((status: StandardError | StandardSuccess) => {
+      res.send(status);
+    })
+    .catch((error: StandardError | StandardSuccess) => {
+      res.status(500).send(error);
+    });
+}
+
+export { fetch, upload, download, remove, newFolder, rename };
