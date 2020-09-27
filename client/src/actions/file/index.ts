@@ -28,10 +28,20 @@ export interface DeleteFile extends Action {
   payload: string;
 }
 
+export interface RenameFile extends Action {
+  type: constants.RENAME_FILE;
+  payload: {
+    srcPath: string;
+    destPath: string;
+    isDir: boolean;
+  };
+}
+
 export type FileAction =
   | UpdateFiles
   | UploadFile
   | CreateNewFolder
+  | RenameFile
   | DeleteFile;
 
 export const updateFiles = (path: string) => (dispatch: Dispatch) => {
@@ -94,6 +104,23 @@ export const deleteFile = (path: string) => (dispatch: Dispatch) => {
     dispatch({
       type: constants.DELETE_FILE,
       payload: path
+    })
+  );
+};
+
+export const renameFile = (
+  srcPath: string,
+  destPath: string,
+  isDir: boolean
+) => (dispatch: Dispatch) => {
+  service.rename(srcPath, destPath).then((data) =>
+    dispatch({
+      type: constants.RENAME_FILE,
+      payload: {
+        srcPath,
+        destPath,
+        isDir
+      }
     })
   );
 };

@@ -42,7 +42,21 @@ export default class ApiService {
     return new Promise<T>((resolve, reject) =>
       instance.delete(this.getUrl(path)).then(
         (res) => {
-          resolve(res.data.data);
+          resolve(res.data);
+        },
+        (err) => {
+          reject(this.processError(err));
+        }
+      )
+    );
+  }
+
+  public put<T = void>(path: QueryPath): Promise<T> {
+    const instance = this.getAxiosInstance();
+    return new Promise<T>((resolve, reject) =>
+      instance.put(this.getUrl(path)).then(
+        (res) => {
+          resolve(res.data);
         },
         (err) => {
           reject(this.processError(err));

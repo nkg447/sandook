@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import styled from 'styled-components';
 
-import { DeleteForever, FolderOpen } from '@material-ui/icons';
+import { Close, DeleteForever, Edit, FolderOpen } from '@material-ui/icons';
 
 import * as actions from '../../../../../actions/file';
 import ContextMenu from '../../../../../components/ContextMenu';
@@ -20,6 +20,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> &
     bottom?: number;
     file: File;
     closeContextMenu: () => void;
+    onRenameClick: () => void;
   };
 
 function FileContextMenu({
@@ -29,6 +30,7 @@ function FileContextMenu({
   bottom,
   file,
   closeContextMenu,
+  onRenameClick,
   ...otherProps
 }: Props) {
   const position = { top, left, right, bottom };
@@ -55,6 +57,24 @@ function FileContextMenu({
       >
         Remove
       </StyledIconText>
+      <StyledIconText
+        onClick={() => {
+          closeContextMenu();
+          onRenameClick();
+        }}
+        icon={<Edit />}
+      >
+        Rename
+      </StyledIconText>
+
+      <StyledIconText
+        onClick={() => {
+          closeContextMenu();
+        }}
+        icon={<Close />}
+      >
+        Close
+      </StyledIconText>
     </Root>
   );
 }
@@ -77,4 +97,5 @@ const Root = styled(ContextMenu)`
 const StyledIconText = styled(IconText)`
   color: ${Colors.textColor};
   min-width: 200px;
+  cursor: pointer;
 `;

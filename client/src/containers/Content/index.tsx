@@ -44,6 +44,7 @@ function Content(props: Props) {
     >
       <CurrentPath onPathChangeHandler={props.onUpdateFiles} path={path} />
       <FileGroup
+        renameHandler={props.renameFile}
         onFileCardClick={(path: string) => {
           setContextMenuVisible(false);
           props.onUpdateFiles(path);
@@ -51,7 +52,7 @@ function Content(props: Props) {
         type="Folders"
         files={folders}
       />
-      <FileGroup type="Files" files={files} />
+      <FileGroup renameHandler={props.renameFile} type="Files" files={files} />
       {isContextMenuVisible ? (
         <BodyContextMenu
           onNewFolderClick={() => setNewFolderModalVisible(true)}
@@ -79,7 +80,9 @@ const mapDispatchToProps = {
   onUpdateFiles: (path: string) => actions.updateFiles(path),
   uploadFile: (file: any, path: string) => actions.uploadFile(file, path),
   createNewFolder: (path: string, folderName: string) =>
-    actions.createNewFolder(path, folderName)
+    actions.createNewFolder(path, folderName),
+  renameFile: (srcPath: string, destPath: string, isDir: boolean) =>
+    actions.renameFile(srcPath, destPath, isDir)
 };
 
 function mapStateToProps(state: RootState): FileState {

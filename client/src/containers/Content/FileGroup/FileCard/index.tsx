@@ -12,10 +12,12 @@ import service from '../../../../service/FileService';
 import { Position } from '../../../../types';
 import { File } from '../../../../types/file';
 import FileContextMenu from './FileContextMenu';
+import RenameModal from './RenameModal';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   file: File;
   onClickHandler?: (path: string) => void;
+  renameHandler: (srcPath: string, destPath: string, isDir: boolean) => void;
 };
 
 const mime = require('mime-types');
@@ -53,6 +55,7 @@ const isImage = (address: string): boolean => {
 export default function FileCard({
   file,
   onClickHandler,
+  renameHandler,
   ...otherProps
 }: Props) {
   const { isDir, path, progress } = file;
@@ -60,6 +63,7 @@ export default function FileCard({
   const name = _path.basename(path);
   const [isContextMenuVisible, setContextMenuVisible] = useState(false);
   const [position, setPosition] = useState<Position>({});
+  const [renameModalVisible, setRenameModalVisible] = useState(false);
   const onContextMenuHandler = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -69,35 +73,47 @@ export default function FileCard({
     setContextMenuVisible(true);
   };
   const closeContextMenu = () => setContextMenuVisible(false);
+  const onRenameHandler = (newName: string) => {
+    renameHandler(path, _path.join(_path.dirname(path), newName), isDir);
+  };
   return (
-    <Root onClick={closeContextMenu} onContextMenu={onContextMenuHandler}>
+    <>
+      <Root onClick={closeContextMenu} onContextMenu={onContextMenuHandler}>
+        <IconText
+          {...otherProps}
+          onDoubleClick={() => {
+            if (isDir && onClickHandler) {
+              onClickHandler(path);
+            } else {
+              service.download(path);
+            }
+          }}
+          outlined
+          icon={<Icon />}
+        >
+          {name}
+        </IconText>
+        {progress ? (
+          <ProgressBar>
+            <ProgressStatus style={{ width: `${progress}%` }} />
+          </ProgressBar>
+        ) : null}
+      </Root>
       {isContextMenuVisible ? (
         <FileContextMenu
+          onRenameClick={() => setRenameModalVisible(true)}
           closeContextMenu={closeContextMenu}
           file={file}
           {...position}
         />
       ) : null}
-      <IconText
-        {...otherProps}
-        onDoubleClick={() => {
-          if (isDir && onClickHandler) {
-            onClickHandler(path);
-          } else {
-            service.download(path);
-          }
-        }}
-        outlined
-        icon={<Icon />}
-      >
-        {name}
-      </IconText>
-      {progress ? (
-        <ProgressBar>
-          <ProgressStatus style={{ width: `${progress}%` }} />
-        </ProgressBar>
+      {renameModalVisible ? (
+        <RenameModal
+          closeModal={() => setRenameModalVisible(false)}
+          renameHandler={onRenameHandler}
+        />
       ) : null}
-    </Root>
+    </>
   );
 }
 

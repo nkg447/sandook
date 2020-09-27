@@ -9,15 +9,22 @@ interface Props {
   files: File[];
   type: string;
   onFileCardClick?: (path: string) => void;
+  renameHandler: (srcPath: string, destPath: string, isDir: boolean) => void;
 }
 
-export default function FileGroup({ files, type, onFileCardClick }: Props) {
+export default function FileGroup({
+  files,
+  type,
+  onFileCardClick,
+  renameHandler
+}: Props) {
   return (
     <>
       <Header>{type}</Header>
       <Root>
         {files.map((file, i) => (
           <FileCard
+            renameHandler={renameHandler}
             onClickHandler={onFileCardClick ? onFileCardClick : undefined}
             file={file}
             key={i}

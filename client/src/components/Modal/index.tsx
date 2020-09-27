@@ -22,7 +22,7 @@ export default function Modal({ closeModal, children }: Props) {
 }
 const Root = styled.div`
   position: fixed;
-  z-index: 1;
+  z-index: 99;
   padding-top: 100px;
   left: 0;
   top: 0;

@@ -9,3 +9,6 @@ export type NEW_FOLDER = typeof NEW_FOLDER;
 
 export const DELETE_FILE = 'DELETE_FILE';
 export type DELETE_FILE = typeof DELETE_FILE;
+
+export const RENAME_FILE = 'RENAME_FILE';
+export type RENAME_FILE = typeof RENAME_FILE;

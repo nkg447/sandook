@@ -84,6 +84,20 @@ class FileService {
         .catch((err) => reject(err));
     });
   }
+
+  public rename(srcPath: string, destPath: string) {
+    const queryParams: QueryParams = {
+      srcPath,
+      destPath
+    };
+    const queryPath: QueryPath = new QueryPath([], queryParams);
+    return new Promise<any>((resolve, reject) => {
+      this.apiService
+        .put<any>(queryPath)
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
+    });
+  }
 }
 const service = new FileService();
 
