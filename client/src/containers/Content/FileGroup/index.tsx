@@ -44,6 +44,7 @@ const Root = styled.div`
   display: grid;
   grid-gap: 0;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  margin-bottom: 12px;
 `;
 
 const Header = styled.div`

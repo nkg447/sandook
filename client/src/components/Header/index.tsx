@@ -21,7 +21,11 @@ export default function Header({ title, logo, toggleTheme }: Props) {
     <Root>
       <StyledAppBar position="static">
         <Toolbar>
-          <Typography variant="h6">{title}</Typography>
+          {logo ? (
+            <img src={logo} style={{ height: 80 }} />
+          ) : (
+            <Typography variant="h6">{title}</Typography>
+          )}
         </Toolbar>
         <ThemeButton onClick={toggleTheme}>🌓</ThemeButton>
       </StyledAppBar>

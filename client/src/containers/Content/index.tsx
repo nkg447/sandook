@@ -95,4 +95,18 @@ export default connector(Content);
 const Root = styled.div`
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #dfdfdf;
+    border-radius: 10px;
+  }
+
 `;

@@ -26,7 +26,7 @@ export default function App() {
   return (
     <ThemeProvider theme={{ mode: theme }}>
       <StylesProvider injectFirst>
-        <Header toggleTheme={toggleTheme} title="Sandook"></Header>
+        <Header toggleTheme={toggleTheme} logo="/logo.png" title="Sandook"></Header>
         <Root>
           {/* <Sidebar align="left">{}</Sidebar> */}
           <Container>
