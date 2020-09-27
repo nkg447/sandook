@@ -5,6 +5,7 @@ import authRouter from './auth';
 import fileRouter from './file';
 import mdmRouter from './mdm';
 import salesRouter from './sales';
+import systemRouter from './system';
 
 const router = Router();
 
@@ -12,4 +13,5 @@ const router = Router();
 // router.use('/mdm', authorize, mdmRouter);
 // router.use('/sales', authorize, salesRouter);
 router.use('/api/file', fileRouter);
+router.use('/api/system', systemRouter);
 export default router;

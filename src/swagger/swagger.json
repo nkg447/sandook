@@ -361,6 +361,28 @@
         }
       }
     },
+    "/api/system": {
+        "get": {
+          "description": "System Info",
+          "tags": [
+            "System"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "$ref": "#/definitions/System"
+              }
+            },
+            "500": {
+              "description": "Error",
+              "schema": {
+                "$ref": "#/definitions/OPStatus"
+              }
+            }
+          }
+        }
+      },
     "/mdm/product": {
       "post": {
         "security": [
@@ -546,6 +568,29 @@
           }
         }
       },
+    "System": {
+        "type": "object",
+        "properties": {
+            "hostname": {
+                "type": "string"
+            },
+            "platform": {
+                "type": "string"
+            },
+            "osType": {
+                "type": "string"
+            },
+            "totalmem": {
+                "type": "string"
+            },
+            "freemem": {
+                "type": "string"
+            },
+            "uptime": {
+                "type": "string"
+            }
+        }
+    },
     "Token": {
       "type": "object",
       "properties": {
