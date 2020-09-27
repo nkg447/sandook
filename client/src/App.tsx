@@ -11,6 +11,7 @@ import Header from './components/Header';
 import IconText from './components/IconText';
 import Sidebar from './components/Sidebar';
 import Content from './containers/Content';
+import LeftSidebar from './containers/LeftSidebar';
 import * as Colors from './theme/Colors';
 import { FileState } from './types/file';
 
@@ -26,9 +27,13 @@ export default function App() {
   return (
     <ThemeProvider theme={{ mode: theme }}>
       <StylesProvider injectFirst>
-        <Header toggleTheme={toggleTheme} logo="/logo.png" title="Sandook"></Header>
+        <Header
+          toggleTheme={toggleTheme}
+          logo="/logo.png"
+          title="Sandook"
+        ></Header>
         <Root>
-          {/* <Sidebar align="left">{}</Sidebar> */}
+          <LeftSidebar />
           <Container>
             <Content></Content>
           </Container>

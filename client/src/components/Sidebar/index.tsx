@@ -5,19 +5,23 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import * as Colors from '../../theme/Colors';
 
-export interface Props {
+type Props = React.HTMLAttributes<HTMLInputElement> & {
   children: any;
   align: 'right' | 'left';
-}
+};
 
-export default function Sidebar({ align, children }: Props) {
+export default function Sidebar({ align, children, ...otherProps }: Props) {
   let alignStyle: any = {};
   if (align === 'left') {
     alignStyle.left = '0px';
   } else {
     alignStyle.right = '0px';
   }
-  return <Root style={alignStyle}>{children}</Root>;
+  return (
+    <Root {...otherProps} style={alignStyle}>
+      {children}
+    </Root>
+  );
 }
 
 const Root = styled.div`
