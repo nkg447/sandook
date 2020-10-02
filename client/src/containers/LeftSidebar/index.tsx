@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import styled from 'styled-components';
 
+import { Computer, Storage } from '@material-ui/icons';
+
 import * as actions from '../../actions/system';
+import IconText from '../../components/IconText';
 import Sidebar from '../../components/Sidebar';
 import { RootState } from '../../store';
 import * as Colors from '../../theme/Colors';
@@ -14,26 +17,30 @@ function LeftSidebar(props: Props) {
   useEffect(() => props.fetchSystemData(), []);
   const { hostname, osType, totalmem, freemem } = props;
   const usedPer = 100 - (Number(freemem) / Number(totalmem)) * 100;
-  const totalMem = (Number(totalmem) / 1024 / 1024 / 1024).toFixed(2);
-  const usedMem = ((usedPer * Number(totalMem)) / 100).toFixed(2);
+  const totalMem = (Number(totalmem) / 1024 / 1024 / 1024).toFixed(1);
+  const usedMem = ((usedPer * Number(totalMem)) / 100).toFixed(1);
   return (
     <Root align="left">
-      <Info>
-        <strong>Hostname</strong>: {hostname}
-      </Info>
-      <Info>
-        <strong>OS</strong>: {osType}
-      </Info>
-      <Info>
-        <strong>Storage</strong>
-      </Info>
-      <ProgressBar>
-        <Progress style={{ width: usedPer + '%' }} />
-      </ProgressBar>
-      <Info>
-        <strong>{usedMem}</strong>/<strong>{totalMem}</strong>GB
-        <strong> {usedPer.toFixed(2)}%</strong> USED
-      </Info>
+      <IconText icon={<Computer />}>
+        {osType}
+        <br />
+        {hostname}
+      </IconText>
+      <br />
+      <br />
+      <IconText icon={<Storage />}>
+        Storage
+        <br />
+        <br />
+        <ProgressBar>
+          <Progress style={{ width: usedPer + '%' }} />
+        </ProgressBar>
+        <Info>
+          <strong>
+            {usedMem}GB of {totalMem}GB
+          </strong>
+        </Info>
+      </IconText>
     </Root>
   );
 }
@@ -65,11 +72,11 @@ const ProgressBar = styled.div`
   width: 100%;
   height: 5px;
   margin-bottom: 12px;
-  background-color: ${Colors.textColor};
+  background-color: lightgrey;
   border-radius: 6px;
 `;
 const Progress = styled.div`
-  background-color: blue;
+  background-color: #4285f4;
   height: 100%;
   border-radius: 6px;
 `;

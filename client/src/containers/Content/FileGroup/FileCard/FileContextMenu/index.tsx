@@ -2,12 +2,13 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import styled from 'styled-components';
 
-import { Close, DeleteForever, Edit, FolderOpen } from '@material-ui/icons';
+import { Close, DeleteForever, Edit, FolderOpen, GetApp } from '@material-ui/icons';
 
 import * as actions from '../../../../../actions/file';
 import ContextMenu from '../../../../../components/ContextMenu';
 import IconText from '../../../../../components/IconText';
 import Spliter from '../../../../../components/Spliter';
+import service from '../../../../../service/FileService';
 import { RootState } from '../../../../../store';
 import * as Colors from '../../../../../theme/Colors';
 import { File, FileState } from '../../../../../types/file';
@@ -47,7 +48,17 @@ function FileContextMenu({
         >
           Open Folder
         </StyledIconText>
-      ) : null}
+      ) : (
+        <StyledIconText
+          onClick={() => {
+            closeContextMenu();
+            service.download(file.path);
+          }}
+          icon={<GetApp />}
+        >
+          Download
+        </StyledIconText>
+      )}
       <StyledIconText
         onClick={() => {
           closeContextMenu();

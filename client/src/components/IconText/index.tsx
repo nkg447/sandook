@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import * as Colors from '../../theme/Colors';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-  children: string;
+  children: any;
   icon: any;
   outlined?: boolean;
 };
