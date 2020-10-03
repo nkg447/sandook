@@ -8,6 +8,7 @@ import { combineValidationError } from '../../core/entity';
 export interface IFile {
   path: string;
   isDir: boolean;
+  progress?: number;
 }
 
 export class File implements IFile {
@@ -17,15 +18,23 @@ export class File implements IFile {
   @IsBoolean()
   public isDir: boolean;
 
+  public progress: number;
+
   public validate(): ValidationError[] {
     return validateSync(this);
   }
+
   public validateErrMsg(): string {
     return combineValidationError(this);
+  }
+
+  public setProgress(p: number): void {
+    this.progress = p;
   }
 
   constructor(obj: object) {
     this.path = get(obj, 'path');
     this.isDir = get(obj, 'isDir');
+    this.progress = 0;
   }
 }

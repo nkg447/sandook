@@ -154,4 +154,16 @@ function rename(req: Request, res: Response, next: NextFunction) {
     });
 }
 
-export { fetch, upload, download, remove, newFolder, rename };
+function uploadFromUrl(req: Request, res: Response, next: NextFunction) {
+  let path: string = '';
+  let url: string = '';
+  if (req.query && req.query.path && typeof req.query.path === 'string') {
+    path = req.query.path;
+  }
+  if (req.query && req.query.url && typeof req.query.url === 'string') {
+    url = req.query.url;
+  }
+  controller.uploadFromUrl(path, url);
+}
+
+export { fetch, upload, download, remove, newFolder, rename, uploadFromUrl };

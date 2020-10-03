@@ -5,7 +5,9 @@ import fileUpload from 'express-fileupload';
 import fs from 'fs';
 import { inject, injectable } from 'inversify';
 import _path from 'path';
+import request from 'request';
 
+import { io } from '../../';
 import Config from '../../config/';
 import { ControllerError, ControllerSuccess } from '../../core/controller/definition';
 import { TYPES } from '../../di/types';
@@ -14,6 +16,9 @@ import { StandardError, StandardSuccess } from '../../entity/standard-operation'
 import { info } from '../../event/sys-log/';
 import IFileService from '../../service/file';
 import { analyseAndCreateMetaFile, ensurePath } from '../../util/FileUtil';
+
+/* tslint:disable-next-line:no-var-requires */
+const progress = require('request-progress');
 
 @injectable()
 export default class FileController implements IFileService {
@@ -133,5 +138,45 @@ export default class FileController implements IFileService {
         reject(new ControllerError(err));
       }
     });
+  }
+
+  public uploadFromUrl(path: string, url: string) {
+    const absolutePath = _path.join(Config.basePath, path);
+    const socketEvent = `/download?path=${path}`;
+    progress(request(url), {
+      throttle: 2000 // Throttle the progress event to 2000ms, defaults to 1000ms
+      // delay: 1000,                       // Only start to emit after 1000ms delay, defaults to 0ms
+      // lengthHeader: 'x-transfer-length'  // Length header to use, defaults to content-length
+    })
+      .on('progress', (state: any) => {
+        // The state is an object that looks like this:
+        // {
+        //     percent: 0.5,               // Overall percent (between 0 to 1)
+        //     speed: 554732,              // The download speed in bytes/sec
+        //     size: {
+        //         total: 90044871,        // The total payload size in bytes
+        //         transferred: 27610959   // The transferred payload size in bytes
+        //     },
+        //     time: {
+        //         elapsed: 36.235,        // The total elapsed seconds since the start (3 decimals)
+        //         remaining: 81.403       // The remaining seconds to finish (3 decimals)
+        //     }
+        // }
+        io.sockets.emit(socketEvent, {
+          ...state,
+          status: 'downloading'
+        });
+      })
+      .on('error', (err: any) => {
+        io.sockets.emit(socketEvent, { ...err, status: 'error' });
+      })
+      .on('end', () => {
+        io.sockets.emit(socketEvent, { status: 'done' });
+      })
+      .pipe(
+        fs.createWriteStream(
+          _path.join(Config.basePath, absolutePath, _path.basename(url))
+        )
+      );
   }
 }
