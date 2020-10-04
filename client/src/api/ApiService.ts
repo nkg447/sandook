@@ -131,7 +131,7 @@ export default class ApiService {
 
         for (const name in path.query) {
           if (path.query[name]) {
-            url += `${separator}${encodeURI(name)}=${encodeURI(
+            url += `${separator}${encodeURI(name)}=${encodeURIComponent(
               path.query[name]!.toString()
             )}`;
             separator = '&';
