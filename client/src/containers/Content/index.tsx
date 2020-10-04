@@ -11,6 +11,7 @@ import BodyContextMenu from './BodyContextMenu';
 import CurrentPath from './CurrentPath';
 import FileGroup from './FileGroup';
 import NewFolderModal from './NewFolderModal';
+import UploadFromUrlModal from './UploadFromUrlModal';
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -20,6 +21,9 @@ function Content(props: Props) {
   const [isContextMenuVisible, setContextMenuVisible] = useState(false);
   const [position, setPosition] = useState<Position>({});
   const [newFolderModalVisible, setNewFolderModalVisible] = useState(false);
+  const [uploadFromUrlModalVisible, setUploadFromUrlModalVisible] = useState(
+    false
+  );
   const onContextMenuHandler = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -36,6 +40,9 @@ function Content(props: Props) {
   };
   const newFolderHandler = (folderName: string) => {
     props.createNewFolder(path, folderName);
+  };
+  const uploadFromUrlHandler = (url: string) => {
+    props.uploadFromUrl(path, url);
   };
   return (
     <Root
@@ -56,6 +63,7 @@ function Content(props: Props) {
       {isContextMenuVisible ? (
         <BodyContextMenu
           onNewFolderClick={() => setNewFolderModalVisible(true)}
+          onUploadFromUrlClick={() => setUploadFromUrlModalVisible(true)}
           {...position}
         />
       ) : null}
@@ -72,6 +80,12 @@ function Content(props: Props) {
           closeModal={() => setNewFolderModalVisible(false)}
         />
       ) : null}
+      {uploadFromUrlModalVisible ? (
+        <UploadFromUrlModal
+          closeModal={() => setUploadFromUrlModalVisible(false)}
+          uploadFromUrlHandler={uploadFromUrlHandler}
+        />
+      ) : null}
     </Root>
   );
 }
@@ -79,6 +93,8 @@ function Content(props: Props) {
 const mapDispatchToProps = {
   onUpdateFiles: (path: string) => actions.updateFiles(path),
   uploadFile: (file: any, path: string) => actions.uploadFile(file, path),
+  uploadFromUrl: (path: string, url: string) =>
+    actions.uploadFromUrl(path, url),
   createNewFolder: (path: string, folderName: string) =>
     actions.createNewFolder(path, folderName),
   renameFile: (srcPath: string, destPath: string, isDir: boolean) =>
@@ -108,5 +124,4 @@ const Root = styled.div`
     background-color: #dfdfdf;
     border-radius: 10px;
   }
-
 `;

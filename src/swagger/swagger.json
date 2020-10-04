@@ -44,6 +44,42 @@
           }
         }
       },
+      "/api/file/fromUrl": {
+        "get": {
+          "description": "Upload from URL",
+          "tags": [
+            "File"
+          ],
+          "parameters": [
+            {
+              "name": "path",
+              "in": "query",
+              "required": true,
+              "type": "string"
+            },
+            {
+                "name": "url",
+                "in": "query",
+                "required": true,
+                "type": "string"
+              }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "$ref": "#/definitions/File"
+              }
+            },
+            "500": {
+              "description": "Error",
+              "schema": {
+                "$ref": "#/definitions/OPStatus"
+              }
+            }
+          }
+        }
+      },
     "/api/file": {
         "get": {
             "description": "Download file at params",

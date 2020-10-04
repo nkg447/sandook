@@ -3,6 +3,7 @@ import { Action, Dispatch } from 'redux';
 
 import * as constants from '../../constants/file';
 import service from '../../service/FileService';
+import socket from '../../socket';
 import { File } from '../../types/file';
 
 export interface UpdateFiles extends Action {
@@ -37,11 +38,17 @@ export interface RenameFile extends Action {
   };
 }
 
+export interface UploadFromUrl extends Action {
+  type: constants.UPLOAD_FROM_URL;
+  payload: File;
+}
+
 export type FileAction =
   | UpdateFiles
   | UploadFile
   | CreateNewFolder
   | RenameFile
+  | UploadFromUrl
   | DeleteFile;
 
 export const updateFiles = (path: string) => (dispatch: Dispatch) => {
@@ -121,6 +128,29 @@ export const renameFile = (
         destPath,
         isDir
       }
+    })
+  );
+};
+
+export const uploadFromUrl = (path: string, url: string) => (
+  dispatch: Dispatch
+) => {
+  socket.on(
+    `/download?path=${_path.join(path, _path.basename(url))}`,
+    (data: File) => {
+      if (data.progress && data.progress === 100) {
+        data.progress = undefined;
+      }
+      dispatch({
+        type: constants.UPLOAD_FROM_URL,
+        payload: data
+      });
+    }
+  );
+  service.uploadFromUrl(path, url).then((data: File) =>
+    dispatch({
+      type: constants.UPLOAD_FROM_URL,
+      payload: data
     })
   );
 };

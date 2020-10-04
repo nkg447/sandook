@@ -2,7 +2,7 @@ import _path from 'path';
 
 import { FileAction } from '../../actions/file';
 import {
-    DELETE_FILE, NEW_FOLDER, RENAME_FILE, UPDATE_FILES, UPLOAD_FILE
+    DELETE_FILE, NEW_FOLDER, RENAME_FILE, UPDATE_FILES, UPLOAD_FILE, UPLOAD_FROM_URL
 } from '../../constants/file';
 import { FileState } from '../../types/file';
 
@@ -72,6 +72,14 @@ export function fileReducer(
         }
       }
       return newState;
+    case UPLOAD_FROM_URL:
+      return {
+        ...state,
+        files: [
+          ...state.files.filter((file) => file.path !== action.payload.path),
+          action.payload
+        ]
+      };
     default:
       return state;
   }

@@ -5,6 +5,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import fileUpload from 'express-fileupload';
 import { Server } from 'http';
 import _path from 'path';
+import socketIo from 'socket.io';
 
 import IRepository from './core/repository/definition';
 import { container } from './di';
@@ -33,24 +34,45 @@ app.use(routes);
 app.use(errorHandlerMiddleware);
 
 if (process.env.NODE_ENV === 'prod') {
-    app.use(express.static(__dirname + '/frontend'));
-    app.get('*', (req, res) => {
-      res.sendFile(_path.join(__dirname + '/frontend/index.html'));
-    });
+  app.use(express.static(__dirname + '/frontend'));
+  app.get('*', (req, res) => {
+    res.sendFile(_path.join(__dirname + '/frontend/index.html'));
+  });
 }
 
-const server: Server = app.listen((process.env['NODE_PORT'] || process.env['APP.PORT']), () => {
-  eventHandler.emit('sys-info', `Express app started at ${process.env['NODE_PORT'] || process.env['APP.PORT']}.`);
-});
+const server: Server = app.listen(
+  process.env['NODE_PORT'] || process.env['APP.PORT'],
+  () => {
+    eventHandler.emit(
+      'sys-info',
+      `Express app started at ${
+        process.env['NODE_PORT'] || process.env['APP.PORT']
+      }.`
+    );
+  }
+);
+export const io = socketIo(server);
 
 const closeApp = async (server: Server) => {
-  try { await repository.disconnect(); } catch (err) { }
-  try { server.close(); } catch (err) { }
+  try {
+    await repository.disconnect();
+  } catch (err) {}
+  try {
+    server.close();
+  } catch (err) {}
   eventHandler.emit('sys-info', 'Shutting down app.');
   process.exit(0);
 };
 
-process.on('SIGINT', () => { closeApp(server); });
-process.on('SIGTERM', () => { closeApp(server); });
+process.on('SIGINT', () => {
+  closeApp(server);
+});
+process.on('SIGTERM', () => {
+  closeApp(server);
+});
+
+io.on('connection', (s) => {
+  console.log('Connected');
+});
 
 export default app;

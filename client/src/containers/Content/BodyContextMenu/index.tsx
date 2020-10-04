@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import styled from 'styled-components';
 
-import { CloudUpload, CreateNewFolder } from '@material-ui/icons';
+import { CloudUpload, CreateNewFolder, Http } from '@material-ui/icons';
 
 import ContextMenu from '../../../components/ContextMenu';
 import IconText from '../../../components/IconText';
 import Spliter from '../../../components/Spliter';
+import socket from '../../../socket';
 import * as Colors from '../../../theme/Colors';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -14,7 +15,8 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   left?: number;
   right?: number;
   bottom?: number;
-  onNewFolderClick: ()=>void;
+  onNewFolderClick: () => void;
+  onUploadFromUrlClick: () => void;
 };
 
 export default function BodyContextMenu({
@@ -23,6 +25,7 @@ export default function BodyContextMenu({
   right,
   bottom,
   onNewFolderClick,
+  onUploadFromUrlClick,
   ...otherProps
 }: Props) {
   const position = { top, left, right, bottom };
@@ -36,10 +39,11 @@ export default function BodyContextMenu({
         <StyledIconText icon={<CloudUpload />}>Upload File</StyledIconText>
       </label>
       <Spliter />
-      <StyledIconText
-        onClick={onNewFolderClick}
-        icon={<CreateNewFolder />}
-      >
+      <StyledIconText onClick={onUploadFromUrlClick} icon={<Http />}>
+        Upload from URL
+      </StyledIconText>
+      <Spliter />
+      <StyledIconText onClick={onNewFolderClick} icon={<CreateNewFolder />}>
         New Folder
       </StyledIconText>
     </Root>

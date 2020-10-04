@@ -59,6 +59,7 @@ function FileContextMenu({
           Download
         </StyledIconText>
       )}
+      <Spliter />
       <StyledIconText
         onClick={() => {
           closeContextMenu();
@@ -68,6 +69,7 @@ function FileContextMenu({
       >
         Remove
       </StyledIconText>
+      <Spliter />
       <StyledIconText
         onClick={() => {
           closeContextMenu();
@@ -77,7 +79,7 @@ function FileContextMenu({
       >
         Rename
       </StyledIconText>
-
+      <Spliter />
       <StyledIconText
         onClick={() => {
           closeContextMenu();
