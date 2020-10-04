@@ -137,6 +137,15 @@ export default class FileController implements IFileService {
     });
   }
 
+  private fileExist(file: string): boolean {
+    try {
+      const stat = fs.statSync(file);
+      return stat.isDirectory();
+    } catch (err) {
+      return false;
+    }
+  }
+
   public uploadFromUrl(path: string, url: string) {
     const absolutePath = _path.join(Config.basePath, path);
     const socketEvent = `/download?path=${_path.join(
@@ -144,9 +153,11 @@ export default class FileController implements IFileService {
       _path.basename(url)
     )}`;
     const fileName = _path.basename(url).substring(0, 50);
-    const filePath = _path.join(absolutePath, fileName);
+    const filePath = this.fileExist(absolutePath)
+      ? _path.join(absolutePath, fileName)
+      : absolutePath;
     const file = new File({
-      path: _path.join(path, fileName),
+      path: this.fileExist(absolutePath) ? _path.join(path, fileName) : path,
       isDir: false
     });
     return new Promise<File | StandardError>((resolve, reject) => {

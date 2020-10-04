@@ -1,3 +1,4 @@
+import _path from 'path';
 import React, { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import styled from 'styled-components';
@@ -41,8 +42,8 @@ function Content(props: Props) {
   const newFolderHandler = (folderName: string) => {
     props.createNewFolder(path, folderName);
   };
-  const uploadFromUrlHandler = (url: string) => {
-    props.uploadFromUrl(path, url);
+  const uploadFromUrlHandler = (url: string, name?: string) => {
+    props.uploadFromUrl(name ? _path.join(path, name) : path, url);
   };
   return (
     <Root
