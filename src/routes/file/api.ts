@@ -163,7 +163,14 @@ function uploadFromUrl(req: Request, res: Response, next: NextFunction) {
   if (req.query && req.query.url && typeof req.query.url === 'string') {
     url = req.query.url;
   }
-  controller.uploadFromUrl(path, url);
+  controller
+    .uploadFromUrl(path, url)
+    .then((status: StandardError | File) => {
+      res.send(status);
+    })
+    .catch((error: StandardError | File) => {
+      res.status(500).send(error);
+    });
 }
 
 export { fetch, upload, download, remove, newFolder, rename, uploadFromUrl };

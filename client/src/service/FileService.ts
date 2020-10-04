@@ -98,6 +98,20 @@ class FileService {
         .catch((err) => reject(err));
     });
   }
+
+  public uploadFromUrl(path: string, url: string) {
+    const queryParams: QueryParams = {
+      path,
+      url
+    };
+    const queryPath: QueryPath = new QueryPath(['fromUrl'], queryParams);
+    return new Promise<any>((resolve, reject) => {
+      this.apiService
+        .get<any>(queryPath)
+        .then((data) => resolve(data))
+        .catch((err) => reject(err));
+    });
+  }
 }
 const service = new FileService();
 

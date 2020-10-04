@@ -20,5 +20,5 @@ export default interface IFileService {
     srcPath: string,
     destPath: string
   ) => Promise<StandardError | StandardSuccess>;
-  uploadFromUrl: (path: string, url: string) => void;
+  uploadFromUrl: (path: string, url: string) => Promise<StandardError | File>;
 }

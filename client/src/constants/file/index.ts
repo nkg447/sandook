@@ -12,3 +12,6 @@ export type DELETE_FILE = typeof DELETE_FILE;
 
 export const RENAME_FILE = 'RENAME_FILE';
 export type RENAME_FILE = typeof RENAME_FILE;
+
+export const UPLOAD_FROM_URL = 'UPLOAD_FROM_URL';
+export type UPLOAD_FROM_URL = typeof UPLOAD_FROM_URL;
